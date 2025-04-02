@@ -1,12 +1,6 @@
-# import pandas as pd
-# import numpy as np
-# # Load your CSV file
-# file_path = "data\\Sorted_data.csv"  # Replace with your file path
-# data = pd.read_csv(file_path)
-
-# plt.show()
 import pandas as pd
 import joblib
+import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -17,7 +11,7 @@ from sklearn.metrics import accuracy_score
 # Load the dataset
 file_path = 'data\\Sorted_data.csv'
 data = pd.read_csv(file_path)
-
+# print ('Shape',data.shape)
 # Split dataset into features (X) and target (y)
 X = data.drop(columns=['PlacedOrNot'])  # Replace 'PlacedOrNot' with actual target column
 y = data['PlacedOrNot']
@@ -43,7 +37,6 @@ joblib.dump(scaler, 'scaler.pkl')
 # Initialize and train KNN
 knn = KNeighborsClassifier(n_neighbors=5)
 knn.fit(X_train_scaled, y_train)
-
 # Save trained KNN model
 joblib.dump(knn, 'knn_model.pkl')
 
@@ -52,7 +45,6 @@ rf = RandomForestClassifier(n_estimators=100, random_state=42)
 # n_estimators will create 100 decision trees in the ensemble.
 #random_state used to ensure consistent and reproducible results when training your Random Forest model.
 rf.fit(X_train_full, y_train)
-
 # Save trained Random Forest model
 joblib.dump(rf, 'rf_model.pkl')
 
@@ -120,13 +112,33 @@ for feature in features_to_test:
     rf_accuracies_feature.append(accuracy_score(y_test, y_pred_rf) * 100)
 
 # 🔹 Plot Feature Importance Effect
-plt.figure(figsize=(10, 5))
-plt.plot(features_to_test, knn_accuracies_feature, marker='o', linestyle='-', color='blue', label='KNN Accuracy')
-plt.plot(features_to_test, rf_accuracies_feature, marker='s', linestyle='-', color='green', label='Random Forest Accuracy')
+# plt.figure(figsize=(10, 5))
+# plt.plot(features_to_test, knn_accuracies_feature, marker='o', linestyle='-', color='blue', label='KNN Accuracy')
+# plt.plot(features_to_test, rf_accuracies_feature, marker='s', linestyle='-', color='green', label='Random Forest Accuracy')
 
-plt.xlabel("Feature Removed")
-plt.ylabel("Accuracy (%)")
-plt.title("Effect of Removing Features on Accuracy")
-plt.legend()
-plt.grid(True)
+# plt.xlabel("Feature Removed")
+# plt.ylabel("Accuracy (%)")
+# plt.title("Effect of Removing Features on Accuracy")
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+
+# Graph 3: Feature Importance (Random Forest)
+importances = rf.feature_importances_
+feature_names = X_train.columns  # Ensure this matches the trained model
+
+plt.figure(figsize=(10, 5))
+plt.barh(feature_names, importances, color='green')
+plt.xlabel("Importance Score")
+plt.ylabel("Features")
+plt.title("Feature Importance (Random Forest)")
 plt.show()
+
+# Graph 5: Box Plot - CGPA Distribution for Placement
+plt.figure(figsize=(8, 5))
+sns.boxplot(x=y, y=data["CGPA"])
+plt.xlabel("Placement Status (0 = Not Placed, 1 = Placed)")
+plt.ylabel("CGPA")
+plt.title("CGPA Distribution for Placed vs. Not Placed Students")
+plt.show()
+

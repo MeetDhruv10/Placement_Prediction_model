@@ -112,16 +112,16 @@ for feature in features_to_test:
     rf_accuracies_feature.append(accuracy_score(y_test, y_pred_rf) * 100)
 
 # 🔹 Plot Feature Importance Effect
-# plt.figure(figsize=(10, 5))
-# plt.plot(features_to_test, knn_accuracies_feature, marker='o', linestyle='-', color='blue', label='KNN Accuracy')
-# plt.plot(features_to_test, rf_accuracies_feature, marker='s', linestyle='-', color='green', label='Random Forest Accuracy')
+plt.figure(figsize=(10, 5))
+plt.plot(features_to_test, knn_accuracies_feature, marker='o', linestyle='-', color='blue', label='KNN Accuracy')
+plt.plot(features_to_test, rf_accuracies_feature, marker='s', linestyle='-', color='green', label='Random Forest Accuracy')
 
-# plt.xlabel("Feature Removed")
-# plt.ylabel("Accuracy (%)")
-# plt.title("Effect of Removing Features on Accuracy")
-# plt.legend()
-# plt.grid(True)
-# plt.show()
+plt.xlabel("Feature Removed")
+plt.ylabel("Accuracy (%)")
+plt.title("Effect of Removing Features on Accuracy")
+plt.legend()
+plt.grid(True)
+plt.show()
 
 # Graph 3: Feature Importance (Random Forest)
 importances = rf.feature_importances_
